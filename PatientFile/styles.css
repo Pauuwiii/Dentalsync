@@ -128,7 +128,7 @@ body.dark-mode .sidebar {
   overflow-y: auto;
 }
 
-.brand {
+..brand {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -138,14 +138,32 @@ body.dark-mode .sidebar {
 }
 
 .brand-logo {
-  width: 42px; height: 22px;
+  width: 140px;
+  height: auto;
   border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--primary), #009eb0);
   display: grid; place-items: center;
-  font-weight: 800; font-size: 0.9rem;
-  color: #0a1628;
-  box-shadow: 0 4px 14px var(--primary-glow);
+  background: transparent;
+  padding: 6px 0;
+  box-shadow: none;
   flex-shrink: 0;
+}
+
+.brand-logo img {
+  width: 140px;
+  height: auto;
+  display: block;
+}
+
+.auth-logo {
+  width: 220px;
+  height: auto;
+  display: block;
+}
+
+.auth-logo img {
+  width: 220px;
+  height: auto;
+  display: block;
 }
 
 .brand-title {

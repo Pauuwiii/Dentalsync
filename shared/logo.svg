@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="120" viewBox="0 0 560 240">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#0ea5a4" />
+      <stop offset="1" stop-color="#0c7ea8" />
+    </linearGradient>
+    <style>
+      .s { font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-weight:700; fill:url(#g); }
+      .tag { font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-weight:400; fill:#374151; font-size:20px }
+    </style>
+  </defs>
+  <g transform="translate(20,20)">
+    <rect x="0" y="0" width="220" height="120" rx="20" fill="white" opacity="0" />
+    <path d="M40 40 C20 20, 20 80, 40 100 C80 140, 140 140, 180 100 C200 80, 200 40, 180 20 C140 -20, 80 -20, 40 20 Z" fill="#e6f7fb" stroke="#0ea5a4" stroke-width="6" />
+    <text x="220" y="58" class="s" font-size="48">Dental</text>
+    <text x="220" y="98" class="tag">All your dental needs</text>
+  </g>
+</svg>
