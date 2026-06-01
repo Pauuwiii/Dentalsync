@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor Schedule · Dental Sync</title>
+  <meta name="description" content="Manage clinic schedules, direct bookings, break blocks, and track grace-period cancellations." />
+  <link rel="stylesheet" href="../PatientFile/styles.css" />
+  <style>
+    /* Custom styling for Doctor Schedule page */
+    .schedule-page-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 1100px) {
+      .schedule-page-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .simulation-control-card {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    
+    .simulation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .simulation-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .sim-time-display {
+      font-size: 1.15rem;
+      font-weight: 800;
+      font-family: monospace;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    
+    .time-slider-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .time-slider {
+      flex: 1;
+      height: 6px;
+      border-radius: 99px;
+      background: #334155;
+      outline: none;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+    
+    /* Operatory Grid styles */
+    .operatory-grid-container {
+      background: var(--surface-card);
+      border-radius: 16px;
+      border: 1px solid var(--surface-border);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .operatory-header {
+      display: grid;
+      grid-template-columns: 70px 1fr 1fr 1fr;
+      gap: 12px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: 700;
+      color: var(--text);
+    }
+    
+    .op-col-header {
+      background: var(--bg-2);
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1.35;
+      text-transform: none;
+      letter-spacing: 0;
+      border: 1px solid var(--border);
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .grid-scrollbar {
+      max-height: min(72vh, 680px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-gutter: stable;
+      border-radius: 8px;
+    }
+
+    .grid-scrollbar::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .grid-scrollbar::-webkit-scrollbar-thumb {
+      background: var(--primary-soft);
+      border-radius: 8px;
+      border: 2px solid var(--surface-card);
+    }
+
+    .grid-scrollbar::-webkit-scrollbar-track {
+      background: var(--bg-2);
+      border-radius: 8px;
+    }
+    
+    .operatory-time-grid {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 12px;
+      position: relative;
+      min-height: 620px;
+    }
+    
+    .time-labels-col {
+      display: flex;
+      flex-direction: column;
+      gap: 40px; /* aligns with 60px time row height */
+      padding-top: 10px;
+    }
+    
+    .time-label-row {
+      height: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-align: right;
+      font-family: monospace;
+    }
+    
+    .operatory-columns-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 59px,
+        var(--border) 59px,
+        var(--border) 60px
+      );
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      min-height: 600px;
+      height: 600px;
+      position: relative;
+    }
+    
+    .op-column {
+      position: relative;
+      height: 100%;
+      border-right: 1px dashed var(--border);
+    }
+    .op-column:last-child {
+      border-right: none;
+    }
+    
+    /* Appointment block placement in column */
+    .schedule-block-card {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #fff;
+      font-size: 0.8rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      z-index: 10;
+    }
+    .schedule-block-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+      z-index: 20;
+    }
+    
+    .appt-card-active {
+      background: linear-gradient(135deg, #0288d1, #01579b);
+      border-left: 4px solid #80d8ff;
+    }
+    .appt-card-pending {
+      background: linear-gradient(135deg, #f57c00, #e65100);
+      border-left: 4px solid #ffe0b2;
+    }
+    .appt-card-inprogress {
+      background: linear-gradient(135deg, #7c4dff, #512da8);
+      border-left: 4px solid #d1c4e9;
+    }
+    .appt-card-online {
+      background: linear-gradient(135deg, #00897b, #00695c);
+      border-left: 4px solid #80cbc4;
+    }
+    .appt-card-disabled {
+      background: linear-gradient(135deg, #64748b, #475569);
+      border-left: 4px solid #cbd5e1;
+      opacity: 0.85;
+    }
+    
+    .schedule-block-title {
+      font-weight: 700;
+      font-size: 0.82rem;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .schedule-block-meta {
+      font-size: 0.72rem;
+      opacity: 0.9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .grace-period-btn {
+      background: #ef5350;
+      color: white;
+      border: none;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      animation: pulse 1.5s infinite;
+      align-self: flex-start;
+    }
+    .grace-period-btn:hover {
+      background: #c62828;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+    
+    .grace-alert-text {
+      color: #fca5a5;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: block;
+      margin-top: 2px;
+    }
+    
+    .console-sidebar-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .console-sidebar-right .card {
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .schedule-sidebar-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .schedule-sidebar-form .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 0;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .schedule-sidebar-form .form-group label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .schedule-sidebar-form .form-group input,
+    .schedule-sidebar-form .form-group select {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+
+    .schedule-sidebar-form .form-group select {
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+        linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+      background-position: calc(100% - 14px) calc(50% - 2px), calc(100% - 9px) calc(50% - 2px);
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+      padding-right: 28px;
+    }
+
+    .schedule-form-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      width: 100%;
+      align-items: start;
+    }
+
+    .schedule-sidebar-form .btn-block {
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 4px;
+    }
+    
+    /* Blockout block styles */
+    .blockout-remover {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 0;
+    }
+    .blockout-remover:hover {
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">DS</div>
+        <div>
+          <div class="brand-title">Dental Sync</div>
+          <div class="brand-sub">Doctor Portal</div>
+        </div>
+      </div>
+
+      <span class="nav-label">Main</span>
+      <a href="index.html" class="menu-item">
+        <span class="icon">🏠</span> Dashboard
+      </a>
+      <a href="appointments.html" class="menu-item">
+        <span class="icon">📅</span> Appointments
+      </a>
+      <a href="patients.html" class="menu-item">
+        <span class="icon">👥</span> Patients
+      </a>
+      <a href="schedule.html" class="menu-item active">
+        <span class="icon">📆</span> Doctor Schedule
+      </a>
+      <a href="notifications.html" class="menu-item">
+        <span class="icon">💬</span> Messages
+      </a>
+
+      <div class="sidebar-divider"></div>
+      <span class="nav-label">Account</span>
+      <a href="profile.html" class="menu-item">
+        <span class="icon">👤</span> My Profile
+      </a>
+      <a href="settings.html" class="menu-item">
+        <span class="icon">⚙️</span> Settings
+      </a>
+
+      <div class="sidebar-spacer"></div>
+      <button class="sign-out">
+        <span>🚪</span> Sign Out
+      </button>
+      <div class="sidebar-profile">
+        <div class="avatar">L</div>
+        <div>
+          <div class="profile-name">Lacsamana Dental Clinic</div>
+          <div class="profile-role">Dental Clinic</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="search" placeholder="Search appointments, schedules, patients..." />
+        </div>
+        <div class="topbar-actions">
+          <a href="appointments.html" class="icon-btn">📅</a>
+          <a href="notifications.html" class="icon-btn">🔔<span class="dot"></span></a>
+          <a href="profile.html" class="avatar-btn">L</a>
+        </div>
+      </header>
+
+      <div class="page-body">
+        
+        <div class="page-heading" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px; flex-wrap:wrap; gap:16px;">
+          <div>
+            <p class="breadcrumbs">Dashboard / Doctor Schedule</p>
+            <h1>Operatory Schedule Book</h1>
+            <p>Manage daily chair allocations, block-out breaks, and enforce 15-minute arrival grace periods.</p>
+            <p id="scheduleSyncBanner" style="color:var(--text-muted);font-size:0.88rem;margin-top:8px;"></p>
+          </div>
+          
+          <div style="display:flex; align-items:center; gap:10px;">
+            <label for="scheduleDatePicker" style="font-weight:600;font-size:0.85rem;">Date:</label>
+            <input type="date" id="scheduleDatePicker" style="padding:8px 12px;border-radius:10px;border:1px solid var(--surface-border);background:var(--surface);color:var(--text);font-weight:700;" />
+          </div>
+        </div>
+
+        <div class="schedule-page-layout">
+          
+          <!-- LEFT: Operatory Board Grid -->
+          <div class="operatory-grid-container">
+            <div class="operatory-header">
+              <div></div>
+              <div class="op-col-header" id="opHeader-1"></div>
+              <div class="op-col-header" id="opHeader-2"></div>
+              <div class="op-col-header" id="opHeader-3"></div>
+            </div>
+            
+            <div class="grid-scrollbar">
+              <div class="operatory-time-grid">
+                
+                <!-- Time Column -->
+                <div class="time-labels-col" id="timeLabelsCol">
+                  <!-- Generated dynamically in schedule.js -->
+                </div>
+                
+                <!-- Columns Grid Wrapper -->
+                <div class="operatory-columns-container">
+                  <div class="op-column" id="opCol-1" data-op="1"></div>
+                  <div class="op-column" id="opCol-2" data-op="2"></div>
+                  <div class="op-column" id="opCol-3" data-op="3"></div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+          <!-- RIGHT: Booking and settings form sidebars -->
+          <div class="console-sidebar-right">
+            
+            <!-- Direct Patient Booking Form -->
+            <div class="card" style="padding:18px;">
+              <h2 style="font-size:0.95rem; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
+                <span>📅</span> Direct Patient Booking
+              </h2>
+              <form id="directBookForm" class="schedule-sidebar-form">
+                <div class="form-group">
+                  <label for="bookPatient">Patient Name</label>
+                  <select id="bookPatient" required>
+                    <option value="" disabled selected>Loading patients…</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="bookService">Service Type</label>
+                  <select id="bookService" required>
+                    <option value="Cleaning" data-duration="60">Cleaning (60m)</option>
+                    <option value="Extraction" data-duration="60">Extraction (60m)</option>
+                    <option value="Consultation" data-duration="60">Consultation (60m)</option>
+                  </select>
+                </div>
+                
+                <div class="schedule-form-row">
+                  <div class="form-group">
+                    <label for="bookOp">Dentist</label>
+                    <select id="bookOp" required></select>
+                  </div>
+                  <div class="form-group">
+                    <label for="bookTime">Time Slot</label>
+                    <select id="bookTime" required></select>
+                  </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Schedule Patient</button>
+              </form>
+            </div>
+            
+            <!-- Blockout Time slot (Disable Slots) -->
+            <div class="card" style="padding:18px;">
+              <h2 style="font-size:0.95rem; margin-bottom:14px; display:flex; align-items:center; gap:6px; color:#94a3b8;">
+                <span>🚫</span> Block Out Time (Disable)
+              </h2>
+              <form id="blockoutForm" class="schedule-sidebar-form">
+                <div class="form-group">
+                  <label for="blockReason">Reason / Label</label>
+                  <input type="text" id="blockReason" placeholder="e.g. Lunch Break, Maintenance" required />
+                </div>
+                
+                <div class="form-group">
+                  <label for="blockOp">Dentist</label>
+                  <select id="blockOp" required>
+                    <option value="all">All Dentists</option>
+                  </select>
+                </div>
+                
+                <div class="schedule-form-row">
+                  <div class="form-group">
+                    <label for="blockStart">Start Time</label>
+                    <select id="blockStart" required></select>
+                  </div>
+                  <div class="form-group">
+                    <label for="blockEnd">End Time</label>
+                    <select id="blockEnd" required></select>
+                  </div>
+                </div>
+                
+                <button type="submit" class="btn btn-secondary btn-block" style="background:#475569; color:#fff; border-color:#475569;">Block Time Range</button>
+              </form>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </main>
+  </div>
+
+  <div class="toast hidden" id="toastMessage"></div>
+  <script src="../shared/sync.js"></script>
+  <script src="../PatientFile/shared.js"></script>
+  <script src="schedule.js"></script>
+</body>
+</html>
+
+
+

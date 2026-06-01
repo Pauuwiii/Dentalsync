@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · Dental Sync</title>
+  <meta name="description" content="Your personal dental care dashboard — view upcoming appointments, health stats, and quick actions." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">DS</div>
+        <div>
+          <div class="brand-title">Dental Sync</div>
+          <div class="brand-sub">Patient Portal</div>
+        </div>
+      </div>
+
+      <span class="nav-label">Main</span>
+      <a href="index.html" class="menu-item active" id="nav-dashboard">
+        <span class="icon">🏠</span> Dashboard
+      </a>
+      <a href="appointments.html" class="menu-item" id="nav-appointments">
+        <span class="icon">📅</span> Appointments
+        <span class="badge">3</span>
+      </a>
+      <a href="records.html" class="menu-item" id="nav-records">
+        <span class="icon">📁</span> Patient Records
+      </a>
+
+      <div class="sidebar-divider"></div>
+      <span class="nav-label">Account</span>
+      <a href="profile.html" class="menu-item" id="nav-profile">
+        <span class="icon">👤</span> My Profile
+      </a>
+      <a href="notifications.html" class="menu-item" id="nav-notifications">
+        <span class="icon">🔔</span> Notifications
+        <span class="badge">3</span>
+      </a>
+      <a href="settings.html" class="menu-item" id="nav-settings">
+        <span class="icon">⚙️</span> Settings
+      </a>
+
+      <div class="sidebar-spacer"></div>
+      <button class="sign-out">
+        <span>🚪</span> Sign Out
+      </button>
+      <div class="sidebar-profile">
+        <div class="avatar">T</div>
+        <div>
+          <div class="profile-name">Testuser</div>
+          <div class="profile-role">Patient</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="search" placeholder="Search appointments, records, doctors…" />
+        </div>
+        <div class="topbar-actions">
+          <a href="appointments.html" class="icon-btn" title="Calendar">📅</a>
+          <a href="notifications.html" class="icon-btn" title="Notifications">
+            🔔<span class="dot"></span>
+          </a>
+          <a href="profile.html" class="avatar-btn">T</a>
+        </div>
+      </header>
+
+      <div class="page-body">
+
+        <!-- HERO -->
+        <div class="hero-card" style="margin-bottom:24px;">
+          <p class="hero-eyebrow">Good day 👋</p>
+          <h1>Testuser</h1>
+          <p class="subtitle">Next appointment: <strong>Mar 15, 2026 · 9:00 AM</strong></p>
+          <div class="hero-actions">
+            <a href="appointments.html" class="btn btn-primary">📅 Book Appointment</a>
+            <a href="records.html" class="btn btn-secondary">📁 View Records</a>
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-icon teal">📅</div>
+            <div>
+              <p class="stat-value">3</p>
+              <p class="stat-label">Upcoming</p>
+              <p class="stat-note">↑ 1 this week</p>
+            </div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon green">✅</div>
+            <div>
+              <p class="stat-value">12</p>
+              <p class="stat-label">Completed</p>
+              <p class="stat-note">All time</p>
+            </div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon purple">💬</div>
+            <div>
+              <p class="stat-value">2</p>
+              <p class="stat-label">Messages</p>
+              <p class="stat-note">With clinic</p>
+            </div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon orange">📁</div>
+            <div>
+              <p class="stat-value">8</p>
+              <p class="stat-label">Records</p>
+              <p class="stat-note">Documents &amp; X-rays</p>
+            </div>
+          </article>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="quick-actions">
+          <a href="appointments.html" class="quick-card">
+            <div class="card-icon">📅</div>
+            Book Appointment
+          </a>
+          <a href="records.html" class="quick-card">
+            <div class="card-icon">📁</div>
+            Patient Records
+          </a>
+          <a href="notifications.html" class="quick-card">
+            <div class="card-icon">💊</div>
+            Prescriptions
+          </a>
+        </div>
+
+        <!-- TIP BANNER -->
+        <div class="tip-banner">
+          <span>💡</span>
+          <span><strong>Daily Tip:</strong> Brush at least twice a day with fluoride toothpaste and floss once daily to prevent cavities and gum disease.</span>
+        </div>
+
+        <!-- BOTTOM PANELS -->
+        <div class="dashboard-bottom">
+          <div class="card">
+            <div class="panel-header">
+              <h2>Upcoming Appointments</h2>
+              <a href="appointments.html" class="view-all">View All →</a>
+            </div>
+            <div class="appt-card">
+              <div class="appt-date">
+                <span class="day">15</span>
+                <span class="month">MAR</span>
+              </div>
+              <div>
+                <p class="appt-title">Teeth Cleaning</p>
+                <p class="appt-meta">Dr. Maria Santos · 9:00 AM</p>
+              </div>
+            </div>
+            <div class="appt-card">
+              <div class="appt-date">
+                <span class="day">22</span>
+                <span class="month">MAR</span>
+              </div>
+              <div>
+                <p class="appt-title">X-Ray &amp; Check-up</p>
+                <p class="appt-meta">Dr. James Lee · 2:00 PM</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="panel-header">
+              <h2>Recent History</h2>
+              <a href="records.html" class="view-all">View All →</a>
+            </div>
+            <div class="hist-item">
+              <p class="hist-title">Tooth Filling</p>
+              <p class="hist-meta">Dr. Maria Santos · Molar #18 · Feb 20, 2026</p>
+            </div>
+            <div class="hist-item">
+              <p class="hist-title">Dental Check-up</p>
+              <p class="hist-meta">Dr. James Lee · Jan 08, 2026</p>
+            </div>
+            <div class="hist-item">
+              <p class="hist-title">Gum Treatment</p>
+              <p class="hist-meta">Dr. Ana Cruz · Dec 03, 2025</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /page-body -->
+    </main>
+  </div>
+
+  <div class="toast hidden" id="toastMessage"></div>
+  <script src="shared.js"></script>
+</body>
+</html>
+
+
+

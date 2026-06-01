@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Online Bookings · Dental Sync</title>
+
+  <meta name="description" content="Confirm online appointment requests from patients." />
+
+  <link rel="stylesheet" href="../PatientFile/styles.css" />
+
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <aside class="sidebar">
+
+      <div class="brand">
+
+        <div class="brand-logo">DS</div>
+
+        <div>
+
+          <div class="brand-title">Dental Sync</div>
+
+          <div class="brand-sub">Doctor Portal</div>
+
+        </div>
+
+      </div>
+
+
+
+      <span class="nav-label">Main</span>
+
+      <a href="index.html" class="menu-item">
+
+        <span class="icon">🏠</span> Dashboard
+
+      </a>
+
+      <a href="appointments.html" class="menu-item active">
+
+        <span class="icon">📅</span> Appointments
+
+        <span class="badge">6</span>
+
+      </a>
+
+      <a href="patients.html" class="menu-item">
+
+        <span class="icon">👥</span> Patients
+
+      </a>
+
+      <a href="schedule.html" class="menu-item">
+
+        <span class="icon">📆</span> Doctor Schedule
+
+      </a>
+
+      <a href="notifications.html" class="menu-item">
+
+        <span class="icon">💬</span> Messages
+
+      </a>
+
+
+
+      <div class="sidebar-divider"></div>
+
+      <span class="nav-label">Account</span>
+
+      <a href="profile.html" class="menu-item">
+
+        <span class="icon">👤</span> My Profile
+
+      </a>
+
+      <a href="settings.html" class="menu-item">
+
+        <span class="icon">⚙️</span> Settings
+
+      </a>
+
+      <a href="subscription.html" class="menu-item">
+
+        <span class="icon">💳</span> Subscription
+
+      </a>
+
+
+
+      <div class="sidebar-spacer"></div>
+
+      <button class="sign-out">
+
+        <span>🚪</span> Sign Out
+
+      </button>
+
+      <div class="sidebar-profile">
+
+        <div class="avatar">L</div>
+
+        <div>
+
+          <div class="profile-name">Lacsamana Dental Clinic</div>
+
+          <div class="profile-role">Dental Clinic</div>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+
+
+    <main class="main-content">
+
+      <header class="topbar">
+
+        <div class="search-bar">
+
+          <span class="search-icon">🔍</span>
+
+          <input type="search" placeholder="Search pending bookings…" />
+
+        </div>
+
+        <div class="topbar-actions">
+
+          <a href="appointments.html" class="icon-btn">📅</a>
+
+          <a href="notifications.html" class="icon-btn">🔔<span class="dot"></span></a>
+
+          <a href="profile.html" class="avatar-btn">L</a>
+
+        </div>
+
+      </header>
+
+
+
+      <div class="page-body">
+
+        <div class="page-heading">
+
+          <p class="breadcrumbs">Dashboard / Appointments</p>
+
+          <h1>Online Booking Confirmations</h1>
+
+          <p>Review and confirm appointment requests submitted by patients through the portal.</p>
+
+        </div>
+
+
+
+        <div class="card" style="margin-bottom:20px;">
+
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+
+            <div>
+
+              <h2 style="font-size:1rem;">Pending Online Bookings</h2>
+
+              <p style="color:var(--text-muted);font-size:0.95rem;" id="appointmentQueueCount">No pending bookings</p>
+
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+              <button class="btn btn-secondary btn-sm" data-action="refresh" type="button">Refresh</button>
+
+              <button class="btn btn-outline btn-sm" id="clearFinishedBtn" type="button">Clear confirmed</button>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="table-wrapper" style="margin-top:18px;overflow-x:auto;">
+
+            <table class="history-table" style="min-width:960px;">
+
+              <thead>
+
+                <tr>
+
+                  <th>Date</th>
+
+                  <th>Time</th>
+
+                  <th>Patient</th>
+
+                  <th>Service</th>
+
+                  <th>Notes</th>
+
+                  <th>Dentist</th>
+
+                  <th>Clinic</th>
+
+                  <th>Status</th>
+
+                  <th>Actions</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="appointmentQueueBody"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="card" style="padding:20px;">
+
+          <h2 style="font-size:1rem;margin-bottom:16px;">Recent Booking Requests</h2>
+
+          <div id="appointmentHighlights">
+
+            <p style="color:var(--text-muted);font-size:0.9rem;" class="highlights-empty">New patient bookings will appear here.</p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <div class="toast hidden" id="toastMessage"></div>
+
+  <script src="../shared/sync.js"></script>
+
+  <script src="../PatientFile/shared.js"></script>
+
+  <script src="portal-sync.js"></script>
+
+</body>
+
+</html>
+
+
+
+
+
