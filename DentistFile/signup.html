@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor Sign Up · Dental Sync</title>
+  <meta name="description" content="Create your Dental Sync doctor portal account." />
+  <link rel="stylesheet" href="../PatientFile/styles.css" />
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-panel auth-panel-left">
+      <div class="auth-branding">
+        <div class="auth-logo">DS</div>
+        <h1>Dental Sync</h1>
+      </div>
+      <div class="auth-info">
+        <h2>Doctor Sign Up</h2>
+        <p>Create your dentist account to manage patients, appointments, and cases.</p>
+        <ul>
+          <li><span class="checkmark">✓</span> Clinic workflow dashboard</li>
+          <li><span class="checkmark">✓</span> Patient profiles & case notes</li>
+          <li><span class="checkmark">✓</span> Appointment and messages tools</li>
+          <li><span class="checkmark">✓</span> Free access with optional upgrade</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="auth-panel auth-panel-right">
+      <div class="auth-form-wrapper">
+        <h2>Create Doctor Account</h2>
+        <p class="form-subtitle">Fill in your details to get started</p>
+
+        <form id="signupForm" class="auth-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <div class="input-wrapper">
+                <span class="input-icon">👤</span>
+                <input
+                  type="text"
+                  id="firstName"
+                  placeholder="Rosita"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <div class="input-wrapper">
+                <span class="input-icon">👤</span>
+                <input
+                  type="text"
+                  id="lastName"
+                  placeholder="Santos"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="signupEmail">Email Address</label>
+            <div class="input-wrapper">
+              <span class="input-icon">✉️</span>
+              <input
+                type="email"
+                id="signupEmail"
+                placeholder="doctor@example.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <div class="input-wrapper">
+              <span class="input-icon">📱</span>
+              <input
+                type="tel"
+                id="phone"
+                placeholder="+63 917 555 0123"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="license">License Number</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🧾</span>
+              <input
+                type="text"
+                id="license"
+                placeholder="PH-DR-2024-089"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="specialty">Specialty</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🦷</span>
+              <input
+                type="text"
+                id="specialty"
+                placeholder="General Dentistry"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="signupPassword">Password</label>
+              <div class="input-wrapper">
+                <span class="input-icon">🔒</span>
+                <input
+                  type="password"
+                  id="signupPassword"
+                  placeholder="Create a strong password"
+                  required
+                />
+                <button type="button" class="toggle-password" onclick="togglePassword('signupPassword')">👁️</button>
+              </div>
+              <div class="password-strength">
+                <div class="strength-bar"><div class="strength-fill"></div></div>
+                <span class="strength-text">Password strength: <strong>Weak</strong></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <div class="input-wrapper">
+                <span class="input-icon">🔒</span>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="Re-enter your password"
+                  required
+                />
+                <button type="button" class="togglePassword" onclick="togglePassword('confirmPassword')">👁️</button>
+              </div>
+            </div>
+          </div>
+
+          <label class="checkbox">
+            <input type="checkbox" id="agreeTerms" required />
+            <span>I agree to the <a href="#" class="link-primary">Terms of Service</a> and <a href="#" class="link-primary">Privacy Policy</a></span>
+          </label>
+
+          <button type="submit" class="btn btn-primary btn-large">Create Account</button>
+
+          <div class="divider">or</div>
+
+          <button type="button" class="btn btn-secondary btn-large" onclick="signupWithGoogle()">
+            <span>🔵</span> Sign up with Google
+          </button>
+        </form>
+
+        <div class="auth-footer">
+          <p>Already have an account? <a href="login.html" class="link-primary">Sign in</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastMessage" class="toast hidden"></div>
+  <script src="../PatientFile/auth.js"></script>
+</body>
+</html>
+
+
+
+
+

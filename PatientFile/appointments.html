@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Appointment · Dental Sync</title>
+  <meta name="description" content="Book a dental appointment — choose a date, time slot, dentist, and service type." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">DS</div>
+        <div>
+          <div class="brand-title">Dental Sync</div>
+        </div>
+      </div>
+
+      <span class="nav-label">Main</span>
+      <a href="index.html" class="menu-item" id="nav-dashboard">
+        <span class="icon">🏠</span> Dashboard
+      </a>
+      <a href="appointments.html" class="menu-item active" id="nav-appointments">
+        <span class="icon">📅</span> Appointments
+        <span class="badge">3</span>
+      </a>
+      <a href="records.html" class="menu-item" id="nav-records">
+        <span class="icon">📁</span> Patient Records
+      </a>
+
+      <div class="sidebar-divider"></div>
+      <span class="nav-label">Account</span>
+      <a href="profile.html" class="menu-item" id="nav-profile">
+        <span class="icon">👤</span> My Profile
+      </a>
+      <a href="notifications.html" class="menu-item" id="nav-notifications">
+        <span class="icon">🔔</span> Notifications
+        <span class="badge">3</span>
+      </a>
+      <a href="settings.html" class="menu-item" id="nav-settings">
+        <span class="icon">⚙️</span> Settings
+      </a>
+
+      <div class="sidebar-spacer"></div>
+      <button class="sign-out">
+        <span>🚪</span> Sign Out
+      </button>
+      <div class="sidebar-profile">
+        <div class="avatar">T</div>
+        <div>
+          <div class="profile-name">Testuser</div>
+          <div class="profile-role">Patient</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="search" placeholder="Search appointments, records, doctors…" />
+        </div>
+        <div class="topbar-actions">
+          <a href="appointments.html" class="icon-btn" title="Calendar">📅</a>
+          <a href="notifications.html" class="icon-btn" title="Notifications">
+            🔔<span class="dot"></span>
+          </a>
+          <a href="profile.html" class="avatar-btn">T</a>
+        </div>
+      </header>
+
+      <div class="page-body">
+
+        <div class="page-heading">
+          <p class="breadcrumbs">Dashboard / Appointments</p>
+          <h1>Book an Appointment</h1>
+          <p>Select a clinic, dentist, date, time slot, and service for your visit.</p>
+        </div>
+
+        <div class="appointments-layout">
+
+          <!-- LEFT: Calendar + Slots -->
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card cal-card">
+              <div class="cal-header">
+                <button class="cal-nav-btn" id="prevMonth">‹</button>
+                <h3 id="calMonthLabel"></h3>
+                <button class="cal-nav-btn" id="nextMonth">›</button>
+              </div>
+              <div class="cal-weekdays" aria-hidden="true">
+                <div class="day-label">Sun</div>
+                <div class="day-label">Mon</div>
+                <div class="day-label">Tue</div>
+                <div class="day-label">Wed</div>
+                <div class="day-label">Thu</div>
+                <div class="day-label">Fri</div>
+                <div class="day-label">Sat</div>
+              </div>
+              <div class="cal-days" id="calendarDays"></div>
+            </div>
+
+            <div class="card slots-card">
+              <div class="slots-header">
+                <div>
+                  <h3>Available Slots</h3>
+                  <span id="slotsDurationHint" style="font-size:0.75rem;color:var(--text-muted);display:block;margin-top:2px;">Each slot uses your service duration</span>
+                </div>
+                <span id="selectedDateLabel" style="font-size:0.8rem;color:var(--text-muted);text-align:right;">Select a date</span>
+              </div>
+              <div class="slots-empty" id="slotsPlaceholder">
+                📆 Please select a date on the calendar
+              </div>
+              <div class="slots-list hidden" id="slotsList"></div>
+            </div>
+          </div>
+
+          <!-- CENTER: Clinic + Dentist + Service -->
+          <div class="appt-main">
+            <div class="card" id="clinicStep">
+              <h2 style="font-size:1rem;margin-bottom:16px;">Choose Clinic</h2>
+              <div class="clinic-list" id="clinicList"></div>
+            </div>
+
+            <div class="card hidden" id="dentistStep">
+              <div class="step-header">
+                <button type="button" class="back-link" id="backToClinics">‹ Change clinic</button>
+                <h2 style="font-size:1rem;margin-bottom:4px;">Choose Dentist</h2>
+                <p class="selected-clinic-label" id="selectedClinicLabel"></p>
+              </div>
+              <div class="dentist-list" id="dentistList"></div>
+            </div>
+
+            <div class="card">
+              <h2 style="font-size:1rem;margin-bottom:16px;">Service Type</h2>
+              <div class="chip-grid" id="serviceChips">
+                <button class="chip active" data-service="Cleaning" data-dur="~60 min" data-minutes="60">Cleaning</button>
+                <button class="chip" data-service="Extraction" data-dur="~60 min" data-minutes="60">Extraction</button>
+                <button class="chip" data-service="Consultation" data-dur="~60 min" data-minutes="60">Consultation</button>
+              </div>
+              <div id="consultationNotesWrap" class="hidden" style="margin-top:16px;">
+                <label for="consultationNotes" style="display:block;font-size:0.82rem;font-weight:600;margin-bottom:6px;color:var(--text-muted);">Additional Notes</label>
+                <textarea id="consultationNotes" rows="3" placeholder="Describe your concern, symptoms, or reason for consultation…" style="width:100%;padding:12px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--surface);color:var(--text);resize:vertical;font:inherit;"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Booking Summary -->
+          <div class="booking-sidebar">
+            <div class="card booking-summary">
+              <h2>Booking Summary</h2>
+              <div class="summary-row"><span>Date</span><strong id="sumDate">Not selected</strong></div>
+              <div class="summary-row"><span>Time</span><strong id="sumTime">Not selected</strong></div>
+              <div class="summary-row"><span>Clinic</span><strong id="sumClinic">Not selected</strong></div>
+              <div class="summary-row"><span>Dentist</span><strong id="sumDentist">Not selected</strong></div>
+              <div class="summary-row"><span>Service</span><strong id="sumService">Cleaning</strong></div>
+              <div class="summary-row"><span>Duration</span><strong id="sumDuration">~60 min</strong></div>
+              <button class="btn btn-primary btn-block" style="margin-top:10px;" id="confirmBookingBtn">Confirm Booking</button>
+            </div>
+
+            <div class="card">
+              <div class="mini-appointments" id="myAppointmentsList">
+                <p class="mini-title">My Appointments</p>
+                <p class="mini-empty" id="myAppointmentsEmpty" style="font-size:0.82rem;color:var(--text-muted);">No bookings yet. Confirm a visit to see it here.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /page-body -->
+    </main>
+  </div>
+
+  <div class="toast hidden" id="toastMessage"></div>
+  <script src="../shared/sync.js"></script>
+  <script src="shared.js"></script>
+  <script src="appointments.js"></script>
+</body>
+</html>
+
+
+

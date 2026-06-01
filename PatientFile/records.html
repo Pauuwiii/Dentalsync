@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Records · Dental Sync</title>
+  <meta name="description" content="Your complete dental health history, documents, and prescriptions." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">DS</div>
+        <div>
+          <div class="brand-title">Dental Sync</div>
+          <div class="brand-sub">Patient Portal</div>
+        </div>
+      </div>
+
+      <span class="nav-label">Main</span>
+      <a href="index.html" class="menu-item">
+        <span class="icon">🏠</span> Dashboard
+      </a>
+      <a href="appointments.html" class="menu-item">
+        <span class="icon">📅</span> Appointments
+        <span class="badge">3</span>
+      </a>
+      <a href="records.html" class="menu-item active">
+        <span class="icon">📁</span> Patient Records
+      </a>
+
+      <div class="sidebar-divider"></div>
+      <span class="nav-label">Account</span>
+      <a href="profile.html" class="menu-item">
+        <span class="icon">👤</span> My Profile
+      </a>
+      <a href="notifications.html" class="menu-item">
+        <span class="icon">🔔</span> Notifications
+        <span class="badge">3</span>
+      </a>
+      <a href="settings.html" class="menu-item">
+        <span class="icon">⚙️</span> Settings
+      </a>
+
+      <div class="sidebar-spacer"></div>
+      <button class="sign-out"><span>🚪</span> Sign Out</button>
+      <div class="sidebar-profile">
+        <div class="avatar">T</div>
+        <div>
+          <div class="profile-name">Testuser</div>
+          <div class="profile-role">Patient</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="search" placeholder="Search appointments, records, doctors…" />
+        </div>
+        <div class="topbar-actions">
+          <a href="appointments.html" class="icon-btn">📅</a>
+          <a href="notifications.html" class="icon-btn">🔔<span class="dot"></span></a>
+          <a href="profile.html" class="avatar-btn">T</a>
+        </div>
+      </header>
+
+      <div class="page-body">
+
+        <div class="page-heading">
+          <p class="breadcrumbs">Dashboard / Patient Records</p>
+          <h1>Patient Records</h1>
+          <p>Your complete dental health history, documents, and prescriptions.</p>
+        </div>
+
+        <!-- Top banner card -->
+        <div class="card records-banner">
+          <div>
+            <p class="records-name">Testuser</p>
+            <p class="records-email">testuser@dentalcare.com</p>
+            <p class="records-meta">DOB: January 15, 1990 &nbsp;|&nbsp; Patient ID: #DC-20260001 &nbsp;|&nbsp; Blood Type: O+</p>
+          </div>
+          <button class="btn btn-primary">✏️ Edit Profile</button>
+        </div>
+
+        <!-- Records grid -->
+        <div class="records-grid">
+
+          <!-- Info card -->
+          <div class="card info-card">
+            <h3>Patient Info</h3>
+            <div class="info-row">
+              <span>Phone</span>
+              <strong>+63 917 123 4567</strong>
+            </div>
+            <div class="info-row">
+              <span>Address</span>
+              <strong>Quezon City, PH</strong>
+            </div>
+            <div class="info-row">
+              <span>Emergency</span>
+              <strong>Jane Doe (wife)</strong>
+            </div>
+            <div class="info-row">
+              <span>Allergies</span>
+              <strong><span class="allergy-tag">Penicillin</span></strong>
+            </div>
+            <div class="info-row">
+              <span>Insurance</span>
+              <strong>PhilHealth</strong>
+            </div>
+            <div class="info-row">
+              <span>Member Since</span>
+              <strong>Jan 2024</strong>
+            </div>
+          </div>
+
+          <!-- History card -->
+          <div class="card">
+            <div class="tabs" id="recordTabs">
+              <button class="tab active" data-tab="history">Dental History</button>
+              <button class="tab" data-tab="docs">Documents &amp; X-rays</button>
+              <button class="tab" data-tab="rx">Prescriptions</button>
+            </div>
+
+            <!-- Dental History -->
+            <div id="tab-history">
+              <table class="history-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Procedure</th>
+                    <th>Dentist</th>
+                    <th>Notes</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recordsHistoryBody"></tbody>
+              </table>
+            </div>
+
+            <!-- Documents & X-rays -->
+            <div id="tab-docs" class="hidden">
+              <div style="display:grid;gap:10px;">
+                <div class="hist-item" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+                  <div>
+                    <p class="hist-title">🦷 Panoramic X-Ray</p>
+                    <p class="hist-meta">Oct 01, 2025 · Dr. R. Garcia · PDF</p>
+                  </div>
+                  <button class="btn btn-secondary btn-sm">⬇ Download</button>
+                </div>
+                <div class="hist-item" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+                  <div>
+                    <p class="hist-title">📄 Treatment Plan</p>
+                    <p class="hist-meta">Jan 08, 2026 · Dr. J. Lee · PDF</p>
+                  </div>
+                  <button class="btn btn-secondary btn-sm">⬇ Download</button>
+                </div>
+                <div class="hist-item" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+                  <div>
+                    <p class="hist-title">🩻 Periapical X-Ray</p>
+                    <p class="hist-meta">Aug 05, 2025 · Dr. A. Cruz · JPEG</p>
+                  </div>
+                  <button class="btn btn-secondary btn-sm">⬇ Download</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prescriptions -->
+            <div id="tab-rx" class="hidden">
+              <div style="display:grid;gap:10px;">
+                <div class="hist-item">
+                  <p class="hist-title">💊 Amoxicillin 500mg</p>
+                  <p class="hist-meta">Prescribed by Dr. M. Santos · Feb 20, 2026 · 7 days</p>
+                </div>
+                <div class="hist-item">
+                  <p class="hist-title">💊 Ibuprofen 400mg</p>
+                  <p class="hist-meta">Prescribed by Dr. A. Cruz · Dec 03, 2025 · 5 days</p>
+                </div>
+                <div class="hist-item">
+                  <p class="hist-title">💊 Clindamycin 300mg</p>
+                  <p class="hist-meta">Prescribed by Dr. J. Lee · Sep 10, 2025 · 7 days</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /page-body -->
+    </main>
+  </div>
+
+  <div class="toast hidden" id="toastMessage"></div>
+  <script src="../shared/sync.js"></script>
+  <script src="shared.js"></script>
+  <script src="records.js"></script>
+</body>
+</html>
+
+
+

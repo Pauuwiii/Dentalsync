@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor Login · Dental Sync</title>
+  <meta name="description" content="Sign in to the Dental Sync doctor portal." />
+  <link rel="stylesheet" href="../PatientFile/styles.css" />
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-panel auth-panel-left">
+      <div class="auth-branding">
+        <div class="auth-logo">DS</div>
+        <h1>Dental Sync</h1>
+      </div>
+      <div class="auth-info">
+        <h2>Doctor Portal</h2>
+        <p>Securely access your schedule, patient records, and consultation messages.</p>
+        <ul>
+          <li><span class="checkmark">✓</span> Manage appointments</li>
+          <li><span class="checkmark">✓</span> View patient profiles</li>
+          <li><span class="checkmark">✓</span> Track open cases</li>
+          <li><span class="checkmark">✓</span> Receive message alerts</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="auth-panel auth-panel-right">
+      <div class="auth-form-wrapper">
+        <h2>Doctor Sign In</h2>
+        <p class="form-subtitle">Enter your credentials to access your doctor dashboard</p>
+
+        <form id="loginForm" class="auth-form">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <span class="input-icon">✉️</span>
+              <input
+                type="email"
+                id="email"
+                placeholder="doctor@example.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+              />
+              <button type="button" class="toggle-password" onclick="togglePassword('password')">👁️</button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox">
+              <input type="checkbox" id="rememberMe" />
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-large">Sign In</button>
+
+          <div class="divider">or</div>
+
+          <button type="button" class="btn btn-secondary btn-large" onclick="loginWithGoogle()">
+            <span>🔵</span> Sign in with Google
+          </button>
+        </form>
+
+        <div class="auth-footer">
+          <p>Don't have an account? <a href="signup.html" class="link-primary">Sign up as a doctor</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastMessage" class="toast hidden"></div>
+  <script src="../PatientFile/auth.js"></script>
+</body>
+</html>
+
+
+
+
+
